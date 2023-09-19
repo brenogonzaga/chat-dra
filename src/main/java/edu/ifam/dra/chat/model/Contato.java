@@ -1,13 +1,12 @@
 package edu.ifam.dra.chat.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.Calendar;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +16,8 @@ public class Contato {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@CreationTimestamp
+	private Calendar dataCriacao;
 	private String nome;
 	private String email;
 	private String telefone;

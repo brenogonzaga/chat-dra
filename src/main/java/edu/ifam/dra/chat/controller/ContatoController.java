@@ -2,7 +2,6 @@ package edu.ifam.dra.chat.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,26 +12,29 @@ import edu.ifam.dra.chat.service.ContatoService;
 @RestController
 public class ContatoController {
 
-	@Autowired
-	ContatoService contatoService;
+	private final ContatoService contatoService;
+
+	public ContatoController(ContatoService contatoService) {
+		this.contatoService = contatoService;
+	}
 
 	@GetMapping
 	ResponseEntity<List<Contato>> getContatos() {
 		List<Contato> contatos = contatoService.getContatos();
-		if (contatos.isEmpty())
+		if (contatos.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(contatos);
+		}
 		return ResponseEntity.ok(contatos);
 
 	}
 
 	@GetMapping("/{id}")
 	ResponseEntity<Contato> getContato(@PathVariable Long id) {
-		try {
-			return ResponseEntity.ok(contatoService.getContato(id));
-		} catch (Exception e) {
+		Contato contato = contatoService.getContato(id);
+		if (contato == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Contato());
 		}
-
+		return ResponseEntity.ok(contato);
 	}
 
 	@PostMapping
@@ -44,7 +46,7 @@ public class ContatoController {
 	@PutMapping("/{id}")
 	ResponseEntity<Contato> setContato(@RequestBody Contato contato, @PathVariable Long id) {
 		try {
-			return ResponseEntity.accepted().body(contatoService.setContato(id, contato));
+			return ResponseEntity.accepted().body(contatoService.updateContato(id, contato));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Contato());
 		}

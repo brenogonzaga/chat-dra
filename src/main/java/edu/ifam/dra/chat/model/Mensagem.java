@@ -2,17 +2,11 @@ package edu.ifam.dra.chat.model;
 
 import java.util.Calendar;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -22,11 +16,17 @@ public class Mensagem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@CreatedDate
+	@CreationTimestamp
 	private Calendar dataHora;
 	private String conteudo;
 	@ManyToOne
 	private Contato emissor;
 	@ManyToOne
 	private Contato receptor;
+
+	public Mensagem(String conteudo, Contato emissor, Contato receptor) {
+		this.conteudo = conteudo;
+		this.emissor = emissor;
+		this.receptor = receptor;
+	}
 }
