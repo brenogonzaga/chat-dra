@@ -53,8 +53,8 @@ public class ContatoController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Contato criado"),
 			@ApiResponse(responseCode = "400", description = "Contato inválido") })
 	ResponseEntity<Contato> setContato(@RequestBody Contato contato) {
-		contatoService.setContato(contato);
-		return ResponseEntity.created(null).body(contato);
+		Contato newContato = contatoService.setContato(contato);
+		return ResponseEntity.created(null).body(newContato);
 	}
 
 	@PutMapping("/{id}")
