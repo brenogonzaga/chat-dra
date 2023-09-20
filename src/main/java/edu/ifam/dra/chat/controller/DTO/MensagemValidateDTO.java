@@ -1,3 +1,7 @@
+/*
+ * Breno Gonzaga
+ * Julianne Castro
+ */
 package edu.ifam.dra.chat.controller.DTO;
 
 import java.util.*;

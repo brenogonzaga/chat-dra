@@ -1,3 +1,7 @@
+/*
+ * Breno Gonzaga
+ * Julianne Castro
+ */
 package edu.ifam.dra.chat.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;

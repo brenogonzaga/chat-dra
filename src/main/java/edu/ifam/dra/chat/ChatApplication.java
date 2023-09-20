@@ -1,3 +1,7 @@
+/*
+ * Breno Gonzaga
+ * Julianne Castro
+ */
 package edu.ifam.dra.chat;
 
 import org.springframework.boot.SpringApplication;

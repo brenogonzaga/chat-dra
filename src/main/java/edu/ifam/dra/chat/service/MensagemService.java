@@ -1,3 +1,7 @@
+/*
+ * Breno Gonzaga
+ * Julianne Castro
+ */
 package edu.ifam.dra.chat.service;
 
 import org.springframework.stereotype.Service;

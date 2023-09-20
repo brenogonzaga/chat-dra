@@ -1,3 +1,8 @@
+/*
+ * Breno Gonzaga
+ * Julianne Castro
+ */
+
 package edu.ifam.dra.chat.controller.DTO;
 
 import edu.ifam.dra.chat.model.Contato;
