@@ -1,33 +1,21 @@
 package edu.ifam.dra.chat.controller.DTO;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import edu.ifam.dra.chat.model.Mensagem;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class MensagemDTO {
-    private String conteudo;
-    private Long emissor;
-    private Long receptor;
+    Long id;
+    String conteudo;
+    ContatoDTO emissor;
+    ContatoDTO receptor;
 
-    public Optional<String> validate() {
-        List<String> errorMessages = new ArrayList<>();
-        if (conteudo == null || conteudo.isEmpty()) {
-            errorMessages.add("Conteúdo não pode ser vazio");
-        }
-        if (emissor == null) {
-            errorMessages.add("Emissor não pode ser vazio");
-        }
-        if (receptor == null) {
-            errorMessages.add("Receptor não pode ser vazio");
-        }
-        if (!errorMessages.isEmpty()) {
-            String errorMessage = String.join(". ", errorMessages);
-            return Optional.of(errorMessage);
-        }
-        return Optional.empty();
+    public MensagemDTO(Mensagem mensagem) {
+        this.id = mensagem.getId();
+        this.conteudo = mensagem.getConteudo();
+        this.emissor = new ContatoDTO(mensagem.getEmissor());
+        this.receptor = new ContatoDTO(mensagem.getReceptor());
     }
-
 }
