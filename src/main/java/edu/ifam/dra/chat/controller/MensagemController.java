@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import edu.ifam.dra.chat.controller.DTO.MensagemDTO;
+import edu.ifam.dra.chat.controller.DTO.MensagemGetDTO;
 import edu.ifam.dra.chat.model.Contato;
 import edu.ifam.dra.chat.model.Mensagem;
 import edu.ifam.dra.chat.service.ContatoService;
@@ -43,7 +44,9 @@ public class MensagemController {
             return ResponseEntity.status(404).body("Receptor não encontrado");
         }
         Mensagem mensagem = new Mensagem(msg.getConteudo(), emissor, receptor);
-        return ResponseEntity.ok(mensagemService.setMensagem(mensagem));
+        Mensagem newMensagem = mensagemService.setMensagem(mensagem);
+        MensagemGetDTO mensagemDTO = new MensagemGetDTO(newMensagem);
+        return ResponseEntity.ok(mensagemDTO);
     }
 
     @GetMapping("/{id}")
@@ -55,6 +58,7 @@ public class MensagemController {
         if (mensagem == null) {
             return ResponseEntity.status(404).body("Mensagem não encontrada");
         }
-        return ResponseEntity.ok(mensagem);
+        MensagemGetDTO mensagemDTO = new MensagemGetDTO(mensagem);
+        return ResponseEntity.ok(mensagemDTO);
     }
 }
