@@ -31,7 +31,7 @@ public class MensagemController {
         this.contatoService = contatoService;
     }
 
-    @PostMapping()
+    @PostMapping
     @Operation(summary = "Cria uma nova mensagem")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Mensagem criada"),
@@ -64,9 +64,11 @@ public class MensagemController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Retorna uma mensagem", method = "GET")
-    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Mensagem"),
-            @ApiResponse(responseCode = "404", description = "Mensagem não encontrada") })
+    @Operation(summary = "Retorna uma mensagem")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Mensagem"),
+            @ApiResponse(responseCode = "404", description = "Mensagem não encontrada")
+    })
     public ResponseEntity<MensagemDTO> getMensagem(@PathVariable Long id) {
         try {
             Mensagem mensagem = mensagemService.getMensagem(id);
@@ -74,6 +76,50 @@ public class MensagemController {
             return ResponseEntity.ok(mensagemDTO);
         } catch (Exception e) {
             return ResponseEntity.status(404).build();
+        }
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "Atualiza uma mensagem")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Mensagem atualizada"),
+            @ApiResponse(responseCode = "404", description = "Mensagem não encontrada"),
+    })
+    public ResponseEntity<String> updateMensagem(@PathVariable Long id, @RequestBody MensagemValidateDTO msg) {
+        if (msg.validate().isPresent()) {
+            return ResponseEntity.badRequest().body(msg.validate().get());
+        }
+
+        Contato emissor = contatoService.getContato(msg.getEmissor());
+        if (emissor == null) {
+            return ResponseEntity.status(404).body("Emissor não encontrado");
+        }
+
+        Contato receptor = contatoService.getContato(msg.getReceptor());
+        if (receptor == null) {
+            return ResponseEntity.status(404).body("Receptor não encontrado");
+        }
+        try {
+            Mensagem mensagem = new Mensagem(msg.getConteudo(), null, null);
+            mensagemService.updateMensagem(id, mensagem);
+            return ResponseEntity.ok("Mensagem atualizada");
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Mensagem não encontrada");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Deleta uma mensagem")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Mensagem deletada"),
+            @ApiResponse(responseCode = "404", description = "Mensagem não encontrada"),
+    })
+    public ResponseEntity<String> deleteMensagem(@PathVariable Long id) {
+        try {
+            mensagemService.deleteMensagem(id);
+            return ResponseEntity.ok("Mensagem deletada");
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Mensagem não encontrada");
         }
     }
 }

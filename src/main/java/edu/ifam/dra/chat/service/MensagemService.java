@@ -25,4 +25,19 @@ public class MensagemService {
         return mensagemRepository.save(msg);
     }
 
+    public Mensagem updateMensagem(Long id, Mensagem msg) {
+        Mensagem mensagem = mensagemRepository.findById(id).orElse(null);
+        if (mensagem == null) {
+            return null;
+        }
+        mensagem.setConteudo(msg.getConteudo());
+        mensagem.setEmissor(msg.getEmissor());
+        mensagem.setReceptor(msg.getReceptor());
+        return mensagemRepository.save(mensagem);
+    }
+
+    public void deleteMensagem(Long id) {
+        mensagemRepository.deleteById(id);
+    }
+
 }

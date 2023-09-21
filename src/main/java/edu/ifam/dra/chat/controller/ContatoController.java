@@ -43,7 +43,7 @@ public class ContatoController {
 		}
 	}
 
-	@GetMapping()
+	@GetMapping
 	@Operation(summary = "Retorna uma lista de contatos")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Lista de contatos"),
